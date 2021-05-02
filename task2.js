@@ -5,7 +5,7 @@ var age = prompt ('Сколько вам полных лет:');
 var gender = confirm ('Нажмите ок, если ваш пол мужской. Отмена если женский:');
 var pension;
 
-while (age == false || age == null || age <= 0 || age > 120) {
+while (age == false || age == null || age <= 0 || age > 120 || isFinite (age) === false) {
   var age = prompt ('Сколько вам полных лет:');
 }
 
