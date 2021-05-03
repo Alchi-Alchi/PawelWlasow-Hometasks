@@ -12,4 +12,3 @@ function numberOfVowels (str) {
 }
 
 console.log(numberOfVowels(str));
-alert ('Число гласных букв: ' + numberOfVowels(str));
