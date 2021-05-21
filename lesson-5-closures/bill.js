@@ -53,9 +53,9 @@ function compare () {
   var johnFamily = averageJohn();
   var markFamily = averageMark ();
   if (johnFamily > markFamily) {
-    console.log ('Семья Джона платит больше чаевых')
+    console.log ('Семья Джона оставила больше чаевых')
   } else if (markFamily > johnFamily) {
-    console.log ('Семья Марка платит больше чаевых')
+    console.log ('Семья Марка оставила больше чаевых')
   } else {
     console.log ('Обе семьи одинаково щедрые')
   }
