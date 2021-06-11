@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Домашнее Форма</title>
+</head>
+<body>
+  <form action="http://fe.it-academy.by/TestForm.php"></form>
+  <script>
+    var arrForm = [
+      ['Разработчики: ', '<input type = "text">'],
+      ['Название сайта: ', '<input type = "text">'],
+      ['URL сайта: ', '<input type = "text">'],
+      ['Дата запуска сайта: ', '<input type = "text">'],
+      ['Посетителей в сутки: ', '<input type = "text">'],
+      ['E-mail для связи: ', '<input type = "text">'],
+      ['Рубрика каталога: ', ['бытовая техника', 'здоровье', 'домашний уют']],
+      ['Размещение: ', ['бесплатное', 'платное', 'VIP']],
+      ['Разрешить отзывы: ', '<input type = "checkbox">'],
+      ['Описание сайта: ', '<textarea></textarea>'],
+      ['Опубликовать', '<input type = "submit"']
+    ];
+    function createForm (arr) {
+      var elemForm = document.querySelector ('form');
+      elemForm.insertAdjacentHTML('beforeend', '<p> Для внесения нашего сайта в каталог, заполните форму: </p>');
+      for (var i = 0; i < arr.length - 5; i++) {
+      var newField = arr[i];
+      elemForm.insertAdjacentHTML('beforeend', '<label>' + newField [0] + '</label>' + newField [1] + '<br>');
+    }
+      var newField = arr[6];
+      var opt = newField [1].map (function (item) {
+        return '<option>' + item + '</option>';
+      });
+      elemForm.insertAdjacentHTML('beforeend', '<label>' + newField [0] + '</label>' + '<select>' + opt.join (' ') + '</select>' + '<br>');
+      var newField = arr[7];
+      var radio = newField [1].map (function (item) {
+        return '<input type = "radio" name = "choise">' + item;
+      });
+      elemForm.insertAdjacentHTML('beforeend', '<label>' + newField [0] + '</label>' + radio.join(' ') + '<br>');
+      var newField = arr[8];
+      elemForm.insertAdjacentHTML('beforeend', '<label>' + newField [0] + '</label>' + newField [1] + '<br>');
+      var newField = arr[9];
+      elemForm.insertAdjacentHTML('beforeend', '<label>' + newField [0] + '</label>' + '<br>' + newField [1] + '<br>');
+      var newField = arr[10];
+      elemForm.insertAdjacentHTML('beforeend', newField [1] + 'value = ' + newField [0] + '>' + '</button>');
+      }
+    createForm (arrForm);
+  </script>
+</body> 
+</html>
