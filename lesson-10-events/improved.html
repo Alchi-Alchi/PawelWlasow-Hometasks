@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Домашнее Форма</title>
+</head>
+
+<body>
+  <form action="http://fe.it-academy.by/TestForm.php"></form>
+  <script>
+    let arrForm = [
+      { label: 'Название сайта:', type: 'text'},
+      { label: 'URL сайта:', type: 'text'},
+      { label: 'Посетителей в сутки:', type: 'text'},
+      { label: 'E-mail для связи:', type: 'text'},
+      { label: 'Рубрика каталога:', type: 'select', variants: [{ text: 'здоровье'}, { text: 'домашний уют'}, { text: 'бытовая техника'}]},
+      { label: 'Размещение:', type: 'radio', variants: [{ text: 'бесплатное', name: 'one'}, { text: 'платное', name: 'one'}, { text: 'VIP', name: 'one'}]},
+      { label: 'Разрешить отзывы:', type: 'checkbox'},
+      { label: 'Описание сайта:', type: 'textarea'},
+      { label: 'Опубликовать', type: 'submit' },
+    ];
+    function createForm(arr) {
+      var elemForm = document.querySelector('form');
+      elemForm.insertAdjacentHTML('beforeend', '<p> Для внесения нашего сайта в каталог, заполните форму: </p>');
+      for (var elem of arr) {
+        if (elem.type === 'submit') {
+          elemForm.insertAdjacentHTML('beforeend', '<input type = "' + elem.type + '" value = "' + elem.label + '">' + '<br>');
+        }
+        if (elem.type === 'text') {
+          elemForm.insertAdjacentHTML('beforeend', elem.label + '<input type="' + elem.type + '">' + '<br>');
+        } else if (elem.type === 'select') {
+            var opt = [];
+            for (var option of elem.variants) {
+              opt.push ('<option>' + option.text + '</option>');
+            } 
+            elemForm.insertAdjacentHTML('beforeend', elem.label + '<select>' + opt + '</select>'+ '<br>');
+        } else if (elem.type === 'radio') {
+            var radioButtons = [];
+            for (var buttons of elem.variants) {
+              radioButtons.push ('<input type = "' + elem.type + '"' + 'name = "' + buttons.name  + '">' + buttons.text);
+            }
+            elemForm.insertAdjacentHTML('beforeend', elem.label + radioButtons.join (' ') + '<br>');
+        } else if (elem.type === 'checkbox') {
+          elemForm.insertAdjacentHTML('beforeend', elem.label + '<input type = "' + elem.type + '">' + '<br>');
+          } else if (elem.type === 'textarea') {
+          elemForm.insertAdjacentHTML('beforeend', elem.label + '<br>' + '<' + elem.type + '>' + '</' + elem.type + '>' + '<br>');
+          }
+        }
+      };
+    createForm(arrForm);
+  </script>
+</body>
+</html>
