@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Домашнее Напитки</title>
+  <link rel="stylesheet" href="hash.css">
+  <script src="hashStorage.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <button id="add">Ввод информации</button>
+    <button id="get">Получение информации</button>
+    <button id="del">Удаление информации</button>
+    <button id="list">Перечень напитков</button>
+    <div id="info"></div>
+  </div>
+  <script>
+    var DrinkStorage = new THashStorage();
+    var addButton = document.getElementById ('add');
+    addButton.onclick = function () {
+      var drink = {};
+      var drinkName = prompt ('Введите название напитка: ');
+      drink.isAlcohol = confirm ('Напиток алкогольный? Нажмите ОК если да, Отмена если нет ');
+      drink.recipe = prompt ('Рецепт приготовления: ');
+      DrinkStorage.AddValue (drinkName, drink);
+      console.log (DrinkStorage.GetValue (drinkName));
+    };
+    var getButton = document.getElementById ('get');
+    getButton.onclick = function () {
+      var drinkName = prompt ('О каком напитке желаете узнать? ');
+      var userAnswer = DrinkStorage.GetValue(drinkName);
+      if (userAnswer !== undefined) {
+        document.getElementById ('info').innerHTML = 'Напиток: ' + '<b>' + drinkName + '</b>' + '<br>' + 'Алкогольный: ' + '<b>' + (userAnswer.isAlcohol === true ? 'Да': 'Нет') + '</b>' + '<br>' + 'Рецепт: ' + '<b>' + (userAnswer.recipe ? userAnswer.recipe: 'Рецепт отсутствует') + '</b>';
+      } else {
+        document.getElementById ('info').innerHTML = 'Такого напитка нет';
+      }
+    }
+    var delButton = document.getElementById ('del');
+    delButton.onclick = function () {
+      var drinkDel = prompt ('Какой напиток желаете удалить? ');
+      if (DrinkStorage.DeleteValue (drinkDel) === true) {
+        document.getElementById ('info').innerHTML = 'Напиток удалён';
+      } else {
+        document.getElementById ('info').innerHTML = 'Такого напитка нет';
+      }
+    }
+    var listButton = document.getElementById ('list');
+    listButton.onclick = function () {
+      document.getElementById ('info').innerHTML = DrinkStorage.GetKeys();
+    }
+  </script>
+</body> 
+</html>
