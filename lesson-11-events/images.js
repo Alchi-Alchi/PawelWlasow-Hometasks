@@ -31,15 +31,15 @@ function mouseover (EO) {
   elemWithEvent.style.cursor = 'move';
 }
 function mousedown (EO) {
-    EO = EO || window.event;
-    EO.preventDefault();
-    elemWithEvent = EO.target;
-    var position = getElementPosition(elemWithEvent);
-    displacementImgX = EO.pageX - position.left;
-    displacementImgY = EO.pageY - position.top;
-    container.appendChild(elemWithEvent);
-    elemWithEvent.style.cursor = 'pointer';
-    window.addEventListener('mousemove', mousemove);
+  EO = EO || window.event;
+  EO.preventDefault();
+  elemWithEvent = EO.target;
+  var position = getElementPosition(elemWithEvent);
+  displacementImgX = EO.pageX - position.left;
+  displacementImgY = EO.pageY - position.top;
+  container.appendChild(elemWithEvent);
+  elemWithEvent.style.cursor = 'pointer';
+  window.addEventListener('mousemove', mousemove);
 }
 function mousemove (EO) {
   EO = EO || window.event;
@@ -48,8 +48,8 @@ function mousemove (EO) {
   elemWithEvent.style.top = (EO.pageY - displacementImgY) + 'px';
 }
 function mouseup (EO) {
-    EO = EO || window.event;
-    EO.preventDefault();
-    window.removeEventListener('mousemove', mousemove);
-    elemWithEvent.style.cursor = 'default';
+  EO = EO || window.event;
+  EO.preventDefault();
+  window.removeEventListener('mousemove', mousemove);
+  elemWithEvent.style.cursor = 'default';
 }
