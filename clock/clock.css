@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: black;
+}
+
+.clock-wrapper {
+  position: absolute;
+  top: 20%;
+  left: 39%;
+}
+
+#clockface {
+  position: relative;
+  border-radius: 50%;
+  background: rgba(19, 20, 23, 1);
+  margin: auto;
+  box-shadow: 0 0 5px 6px whitesmoke;
+}
+
+#number {
+  color: white;
+  position: absolute;
+  font-size: 30px;
+}
+
+#arrow {
+  position: absolute;
+  border-radius: 20px;
+}
+
+#digitalTime, #digitalDate {
+  position: absolute;
+  color: darkorange;
+  font-size: 30px;
+  left: 38%;
+}
