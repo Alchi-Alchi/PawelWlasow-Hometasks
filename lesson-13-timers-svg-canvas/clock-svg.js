@@ -23,8 +23,8 @@ clockFace.setAttribute ('fill', clockFaceColor);
 clockFace.setAttribute ('stroke', 'white');
 clockFace.setAttribute ('stroke-width', '4');
 wrapper.appendChild (clockFace);
-
 wrapper.style.xmlns = xmlns;
+// Расставление цифр
 window.onload = function () {
   var i;
   var count = 1;
@@ -45,6 +45,7 @@ window.onload = function () {
     count++;
   }
 }
+// Создание стрелок, электронных часов и присваивание им атрибутов
 digitalTime = document.createElementNS (xmlns, 'text');
 digitalTime.setAttribute ('x', centerX);
 digitalTime.setAttribute ('y', centerY - radius / 2);
@@ -87,8 +88,9 @@ sArrow.setAttribute ('y2', centerY);
 sArrow.setAttribute ('stroke', 'darkred');
 sArrow.setAttribute ('stroke-width', '2');
 wrapper.appendChild (sArrow);
-hArrow.style.transformOrigin = 'center 208px';
-mArrow.style.transformOrigin = 'center 208px';
+// Задать ось
+hArrow.style.transformOrigin = 'center 210px';
+mArrow.style.transformOrigin = 'center 210px';
 sArrow.style.transformOrigin = 'center 210px';
 var centerCircle = document.createElementNS (xmlns, 'circle');
 centerCircle.setAttribute ('cx', clockFaceCX);
