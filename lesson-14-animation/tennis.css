@@ -1,0 +1,49 @@
+#start {
+  margin: 10px auto;
+  padding: 10px 30px;
+  font-size: 18px;
+}
+
+#board {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 300px;
+  height: 100px;
+  border: 1px dashed black;
+  text-align: center;
+  background-color: gray;
+}
+
+#score1, #score2 {
+  font-size: 48px;
+}
+
+#field {
+  position: relative;
+  margin: 1%;
+  border: 1px solid black;
+  background: yellowgreen;
+}
+
+#ball {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background: brown;
+}
+
+#racketleft {
+  position: absolute;
+  height: 150px;
+  width: 5px;
+  background-color: blue;
+}
+
+#racketright {
+  position: absolute;
+  height: 150px;
+  width: 5px;
+  background-color: red;
+}
