@@ -5,9 +5,7 @@ window.onload = function() {
   var racketH = 150;
   var racketW = 5;
   var speedOfRacket = 0;
-  var ballSizes = 25;
-  var ballPosX = 295;
-  var ballPosY = 195;
+  var ballSizes = 50;
   var ballSpeedY = 0;
   var ballSpeedX = 0;
   var score = 0;
@@ -17,21 +15,25 @@ window.onload = function() {
   var board = document.createElement('div');
   wrapper.appendChild (board).id = ('board');
   var score1 = document.createElement ('span');
+  var colon = document.createElement ('span');
   var score2 = document.createElement ('span');
   board.appendChild(score1).id = 'score1';
+  board.appendChild(colon).id = 'colon';
   board.appendChild(score2).id = 'score2';
-  //Кнопка
-  var button = document.createElement('button');
-  button.textContent = 'Старт';
-  wrapper.appendChild(button).id = 'start';
   //Поле
   var field = document.createElement('div');
   wrapper.appendChild(field).id = 'field';
   field.style.width = widthOfField + 'px';
   field.style.height = heightOfField + 'px';
+   //Кнопка
+   var button = document.createElement('button');
+   button.textContent = 'Старт';
+   wrapper.appendChild(button).id = 'start';
   //Мячик
   var ball = document.createElement('div');
   field.appendChild(ball).id = 'ball';
+  var ballPosX = widthOfField / 2 - ball.offsetWidth / 2;
+  var ballPosY = heightOfField / 2 - ball.offsetHeight / 2;
   //Левая ракетка
   var racketLeft = document.createElement('div');
   field.appendChild(racketLeft).id = 'racketleft';
@@ -137,11 +139,11 @@ window.onload = function() {
     if (racketRight.y >= heightOfField - racketRight.height) {
       racketRight.y = heightOfField - racketRight.height;
     };
-    if (ball.y <= 0 || ball.y >= heightOfField - ball.height) {
+    if (ball.y <= 0 || ball.y >= heightOfField - ballSizes) {
         ball.speedY = - ball.speedY;
     };
     if (ball.x <= racketLeft.width) {
-      if (ball.y > racketLeft.y && ball.y < racketLeft.y + racketLeft.height) { 
+      if (ball.y > racketLeft.y && ball.y < racketLeft.y + racketLeft.height) {
         ball.speedX = - ball.speedX;
       } else {
         ball.x = 0;
@@ -149,7 +151,7 @@ window.onload = function() {
         stopGame();
       };
     };
-      if (ball.x >= widthOfField - ball.width - racketRight.width) {
+      if (ball.x >= widthOfField - ballSizes - racketRight.width) {
         if (ball.y > racketRight.y && ball.y < racketRight.y + racketRight.height) {
           ball.speedX = - ball.speedX;
         } else {
@@ -163,6 +165,7 @@ window.onload = function() {
       document.getElementById("ball").style.top = (ball.y) + "px";
       document.getElementById("ball").style.left = (ball.x) + "px";
       document.getElementById('score1').innerHTML = racketLeft.score.toString();
+      document.getElementById('colon').innerHTML = ':';
       document.getElementById('score2').innerHTML = racketRight.score.toString();
   };
 };
