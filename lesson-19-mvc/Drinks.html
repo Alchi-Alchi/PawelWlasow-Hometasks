@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Домашнее Напитки</title>
+  <link rel="stylesheet" href="Drinks.css">
+  <script src="LocalStorage.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <p>Напитки</p>
+    <button id="addDrink">Ввод информации</button>
+    <button id="getDrink">Получение информации</button>
+    <button id="delDrink">Удаление информации</button>
+    <button id="listDrink">Перечень напитков</button>
+    <div id="infoDrink"></div>
+    <br>
+    <p>Блюда</p>
+    <button id="addDish">Ввод информации</button>
+    <button id="getDish">Получение информации</button>
+    <button id="delDish">Удаление информации</button>
+    <button id="listDish">Перечень блюд</button>
+    <div id="infoDish"></div>
+  </div>
+  <script>
+    var DrinkStorage = new tLocalStorage('drink');
+    var addButton = document.getElementById ('addDrink');
+    addButton.onclick = function () {
+      var drink = {};
+      var drinkName = prompt ('Введите название напитка: ');
+      drink.isAlcohol = confirm ('Напиток алкогольный? Нажмите ОК если да, Отмена если нет ');
+      drink.recipe = prompt ('Рецепт приготовления: ');
+      DrinkStorage.AddValue (drinkName, drink);
+      DrinkStorage.Store ();
+      console.log (DrinkStorage.GetValue (drinkName));
+    };
+    var getButton = document.getElementById ('getDrink');
+    getButton.onclick = function () {
+      var drinkName = prompt ('О каком напитке желаете узнать? ');
+      var userAnswer = DrinkStorage.GetValue(drinkName);
+      if (userAnswer !== undefined) {
+        document.getElementById ('infoDrink').innerHTML = 'Напиток: ' + '<b>' + drinkName + '</b>' + '<br>' + 'Алкогольный: ' + '<b>' + (userAnswer.isAlcohol === true ? 'Да': 'Нет') + '</b>' + '<br>' + 'Рецепт: ' + '<b>' + (userAnswer.recipe ? userAnswer.recipe: 'Рецепт отсутствует') + '</b>';
+      } else {
+        document.getElementById ('infoDrink').innerHTML = 'Такого напитка нет';
+      }
+    }
+    var delButton = document.getElementById ('delDrink');
+    delButton.onclick = function () {
+      var drinkDel = prompt ('Какой напиток желаете удалить? ');
+      if (DrinkStorage.DeleteValue (drinkDel) === true) {
+        document.getElementById ('infoDrink').innerHTML = 'Напиток удалён';
+        DrinkStorage.Store ();
+      } else {
+        document.getElementById ('infoDrink').innerHTML = 'Такого напитка нет';
+      }
+    }
+    var listButton = document.getElementById ('listDrink');
+    listButton.onclick = function () {
+      document.getElementById ('infoDrink').innerHTML = DrinkStorage.GetKeys();
+    }
+
+    var dishStorage = new tLocalStorage('dish');
+    var addButton = document.getElementById ('addDish');
+    addButton.onclick = function () {
+      var dish = {};
+      var dishName = prompt ('Введите название блюда: ');
+      dish.isAlcohol = confirm ('Блюдо мясное? Нажмите ОК если да, Отмена если нет ');
+      dish.recipe = prompt ('Рецепт приготовления: ');
+      dishStorage.AddValue (dishName, dish);
+      dishStorage.Store ();
+      console.log (dishStorage.GetValue (dishName));
+    };
+    var getButton = document.getElementById ('getDish');
+    getButton.onclick = function () {
+      var dishName = prompt ('О каком блюде желаете узнать? ');
+      var userAnswer = dishStorage.GetValue(dishName);
+      if (userAnswer !== undefined) {
+        document.getElementById ('infoDish').innerHTML = 'Блюдо: ' + '<b>' + dishName + '</b>' + '<br>' + 'Мясное: ' + '<b>' + (userAnswer.isAlcohol === true ? 'Да': 'Нет') + '</b>' + '<br>' + 'Рецепт: ' + '<b>' + (userAnswer.recipe ? userAnswer.recipe: 'Рецепт отсутствует') + '</b>';
+      } else {
+        document.getElementById ('infoDish').innerHTML = 'Такого блюда нет';
+      }
+    }
+    var delButton = document.getElementById ('delDish');
+    delButton.onclick = function () {
+      var dishDel = prompt ('Какое блюдо желаете удалить? ');
+      if (dishStorage.DeleteValue (dishDel) === true) {
+        document.getElementById ('infoDish').innerHTML = 'блюдо удалено';
+        dishStorage.Store ();
+      } else {
+        document.getElementById ('infoDish').innerHTML = 'Такого блюда нет';
+      }
+    }
+    var listButton = document.getElementById ('listDish');
+    listButton.onclick = function () {
+      document.getElementById ('infoDish').innerHTML = dishStorage.GetKeys();
+    }
+  </script>
+</body> 
+</html>
