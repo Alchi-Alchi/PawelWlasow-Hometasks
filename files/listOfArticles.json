@@ -1,0 +1,11 @@
+[
+  {"rus": "Меркурий", "eng": "Mercury"},
+  {"rus": "Венера", "eng": "Venus"},
+  {"rus": "Земля", "eng": "Earth"},
+  {"rus": "Марс", "eng": "Mars"},
+  {"rus": "Юпитер", "eng": "Jupiter"},
+  {"rus": "Сатурн", "eng": "Saturn"},
+  {"rus": "Уран", "eng": "Uranus"},
+  {"rus": "Нептун", "eng": "Neptune"},
+  {"rus": "Плутон", "eng": "Pluto"}
+]

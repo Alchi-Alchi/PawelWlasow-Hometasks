@@ -1,0 +1,31 @@
+#image {
+  float: left;
+  margin: 10px;
+}
+
+img {
+  width: 500px;
+}
+
+#text {
+  font-size: 28px;
+}
+
+#header {
+  text-align: center;
+  font-size: 28px;
+}
+
+#title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+#buttonBox {
+  text-align: center;
+}
+
+.section {
+  margin: 15px;
+}

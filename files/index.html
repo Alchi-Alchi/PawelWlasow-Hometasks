@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Планеты</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="listOfArticles.json"></script>
+</head>
+<body>
+  <h2 id="title">Планеты</h2>
+  <div id='IPage'></div>
+  <script>
+    window.onhashchange = SwitchToStateFromURLHash;
+    let SPAStateH = {}; 
+    function SwitchToStateFromURLHash() {
+      let URLHash = window.location.hash;
+      let StateJSON = decodeURIComponent(URLHash.substr(1));
+      let JSONArticles = [
+        {"rus": "Меркурий", "eng": "Mercury"},
+        {"rus": "Венера", "eng": "Venus"},
+        {"rus": "Земля", "eng": "Earth"},
+        {"rus": "Марс", "eng": "Mars"},
+        {"rus": "Юпитер", "eng": "Jupiter"},
+        {"rus": "Сатурн", "eng": "Saturn"},
+        {"rus": "Уран", "eng": "Uranus"},
+        {"rus": "Нептун", "eng": "Neptune"},
+        {"rus": "Плутон", "eng": "Pluto"}
+      ];
+      let linkUrl;
+      let listOfArticles = [];
+      let letters = [];
+      JSONArticles.forEach (function (item, i, arr) {
+        listOfArticles.push (item.rus);
+      }); 
+      JSONArticles.forEach (function (item, i, arr) {
+        letters.push (item.rus.substr (0, 1));
+      });
+      letters.sort ();
+      listOfArticles.sort ();
+      let uniqueLetters = [...new Set (letters)];
+      if (StateJSON !== "") {
+        SPAStateH = JSON.parse(StateJSON); 
+      } else {
+        SPAStateH = {pagename: 'Main'};
+      }
+      let PageHTML = "";
+      switch (SPAStateH.pagename) {
+        case 'Главная':
+          PageHTML += "<h3 id='header'>Главная страница</h3>";
+          break;
+        case 'Список статей':
+          PageHTML += "<h3 id='header'>Оглавление</h3>";
+          PageHTML += "<div id='wrapper'></div>";
+          break;
+        case 'Статья':
+          PageHTML += "<h3 id='header'>Содержание</h3>";
+          PageHTML += "<div id='article'></div>";
+          break;
+      }
+      document.getElementById('IPage').innerHTML = PageHTML;
+      let wrapper = document.getElementById ('wrapper');
+      uniqueLetters.forEach (function (item, i, arr) {
+        let div = document.createElement ('div');
+        let span = document.createElement ('span');
+        let br = document.createElement ('br');
+        wrapper.appendChild (div).id = item;
+        div.className = 'section';
+        div.appendChild (span).id = 'text';
+        div.appendChild (br);
+        span.innerHTML = item;
+      });
+      function alphabetList () {
+        listOfArticles.forEach (function (item, i, arr) {
+          let numArticle = 'article' + i;
+          let letter = item.substr (0, 1);
+          let base = document.getElementById (item.substr (0, 1));
+          let articleLink = '';
+          let a = document.createElement ('a');
+          a.setAttribute ('id', numArticle);
+          a.setAttribute ('href', linkUrl);
+          a.setAttribute ('class', 'link');
+          a.setAttribute ('onclick', 'SwitchToArticlePage()');
+          let br = document.createElement ('br');
+          if (letter == base.getAttribute ('id')) {
+            base.append (a);
+            a.append (item);
+            base.append (br);
+          };
+        });
+      };
+      alphabetList ();
+    }
+    // Запасная функция для отображения страниц без AJAX
+    // let ArticlesH = {
+    //   0: {article: "pages/ven.html", comment: "article0"},
+    //   1: {article: "pages/earth.html", comment: "article1"},
+    //   2: {article: "pages/mars.html", comment: "article2"},
+    //   3: {article: "pages/merc.html", comment: "article3"},
+    //   4: {article: "pages/nept.html", comment: "article4"},
+    //   5: {article: "pages/pluto.html", comment: "article5"},
+    //   6: {article: "pages/sat.html", comment: "article6"},
+    //   7: {article: "pages/uran.html", comment: "article7"},
+    //   8: {article: "pages/up.html", comment: "article8"}
+    // };
+    // function fallback () {
+    //   let articleLink = '';
+    //   let a = document.createElement ('a');
+    //   a.setAttribute ('id', numArticle);
+    //   for (let name in ArticlesH) {
+    //     articleLink = ArticlesH[name].article
+    //     if (ArticlesH[name].comment == a.getAttribute ('id')) {
+    //       a.setAttribute ('href', ArticlesH[name].article);
+    //     }
+    //   }
+    // }
+    // fallback ();
+    function SwitchToState(NewStateH) {
+      location.hash = encodeURIComponent(JSON.stringify(NewStateH));
+    }
+    function SwitchToMainPage() {
+      SwitchToState({pagename: 'Главная'});
+    }
+    function SwitchToListPage() {
+      SwitchToState({pagename: 'Список статей'});
+    }
+    SwitchToStateFromURLHash();
+  </script>
+  <script src="index.js"></script>
+  <script src="jquery-3.6.0.js"></script>
+  <br>
+  <div id="buttonBox">
+    <input type=button id="button" value='Главная' onclick='SwitchToMainPage()'>
+    <input type=button id="button" value='Список статей' onclick='SwitchToListPage()'>
+  </div>
+</body>
+</html>
