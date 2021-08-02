@@ -26,17 +26,19 @@
         {"rus": "Нептун", "eng": "Neptune"},
         {"rus": "Плутон", "eng": "Pluto"}
       ];
-      let linkUrl;
+      // Массив статей
       let listOfArticles = [];
+      // Массив ссылок
+      let listOfLinks = [];
+      // Массив букв
       let letters = [];
-      JSONArticles.forEach (function (item, i, arr) {
-        listOfArticles.push (item.rus);
-      }); 
+      // Наполняем массив букв беря из русского названия первую и сортируем по алфавиту
       JSONArticles.forEach (function (item, i, arr) {
         letters.push (item.rus.substr (0, 1));
       });
       letters.sort ();
       listOfArticles.sort ();
+      // Убираем повторяющиеся буквы
       let uniqueLetters = [...new Set (letters)];
       if (StateJSON !== "") {
         SPAStateH = JSON.parse(StateJSON); 
@@ -59,6 +61,7 @@
       }
       document.getElementById('IPage').innerHTML = PageHTML;
       let wrapper = document.getElementById ('wrapper');
+      // Формируем заголовки
       uniqueLetters.forEach (function (item, i, arr) {
         let div = document.createElement ('div');
         let span = document.createElement ('span');
@@ -69,51 +72,29 @@
         div.appendChild (br);
         span.innerHTML = item;
       });
+      listOfLinks.sort ();
+      // Создаём ссылки, задаём id, класс и атрибут onclick, добавляем статьи в соответствие с буквой раздела
       function alphabetList () {
-        listOfArticles.forEach (function (item, i, arr) {
-          let numArticle = 'article' + i;
-          let letter = item.substr (0, 1);
-          let base = document.getElementById (item.substr (0, 1));
-          let articleLink = '';
+        JSONArticles.forEach (function (item, i, arr) {
+          listOfArticles.push (item.rus);
+          listOfLinks.push (item.eng);
+          let letter = item.rus.substr (0, 1);
+          let base = document.getElementById (item.rus.substr (0, 1));
           let a = document.createElement ('a');
-          a.setAttribute ('id', numArticle);
-          a.setAttribute ('href', linkUrl);
+          a.setAttribute ('id', item.eng);
           a.setAttribute ('class', 'link');
+          a.setAttribute ('href', '');
           a.setAttribute ('onclick', 'SwitchToArticlePage()');
           let br = document.createElement ('br');
           if (letter == base.getAttribute ('id')) {
             base.append (a);
-            a.append (item);
+            a.append (listOfArticles[i]);
             base.append (br);
           };
         });
       };
       alphabetList ();
     }
-    // Запасная функция для отображения страниц без AJAX
-    // let ArticlesH = {
-    //   0: {article: "pages/ven.html", comment: "article0"},
-    //   1: {article: "pages/earth.html", comment: "article1"},
-    //   2: {article: "pages/mars.html", comment: "article2"},
-    //   3: {article: "pages/merc.html", comment: "article3"},
-    //   4: {article: "pages/nept.html", comment: "article4"},
-    //   5: {article: "pages/pluto.html", comment: "article5"},
-    //   6: {article: "pages/sat.html", comment: "article6"},
-    //   7: {article: "pages/uran.html", comment: "article7"},
-    //   8: {article: "pages/up.html", comment: "article8"}
-    // };
-    // function fallback () {
-    //   let articleLink = '';
-    //   let a = document.createElement ('a');
-    //   a.setAttribute ('id', numArticle);
-    //   for (let name in ArticlesH) {
-    //     articleLink = ArticlesH[name].article
-    //     if (ArticlesH[name].comment == a.getAttribute ('id')) {
-    //       a.setAttribute ('href', ArticlesH[name].article);
-    //     }
-    //   }
-    // }
-    // fallback ();
     function SwitchToState(NewStateH) {
       location.hash = encodeURIComponent(JSON.stringify(NewStateH));
     }
@@ -122,6 +103,26 @@
     }
     function SwitchToListPage() {
       SwitchToState({pagename: 'Список статей'});
+    }
+    // Запрос. id и названия страниц совпадают. Зная по какой ссылке был совершен клик, узнаем её id и подставляем его в url.
+    let content = document.getElementById ('article');
+    function SwitchToArticlePage() {
+      articleID = event.target.id;
+      let pageName = articleID;
+      let linkUrl = 'pages/' + pageName + '.html';
+      console.log (linkUrl);
+      // let elem = document.getElementById (pageName);
+      // elem.setAttribute ('href', linkUrl);
+      SwitchToState({pagename: 'Статья'});
+      let xhr = new XMLHttpRequest ();
+      xhr.open ('GET', linkUrl, true);
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        content.innerHTML = xhr.response;
+        console.log (xhr.responseText);
+      } else {
+        console.log ('error');
+      }
+      xhr.send ();
     }
     SwitchToStateFromURLHash();
   </script>
