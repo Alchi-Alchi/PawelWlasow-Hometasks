@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Планеты</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="listOfArticles.json"></script>
+</head>
+<body>
+  <h2 id="title">Планеты</h2>
+  <div id='IPage'></div>
+  <script>
+    window.onhashchange = SwitchToStateFromURLHash;
+    let SPAStateH = {}; 
+    function SwitchToStateFromURLHash() {
+      let URLHash = window.location.hash;
+      let StateJSON = decodeURIComponent(URLHash.substr(1));
+      let JSONArticles = [
+        {"rus": "Меркурий", "eng": "Mercury"},
+        {"rus": "Венера", "eng": "Venus"},
+        {"rus": "Земля", "eng": "Earth"},
+        {"rus": "Марс", "eng": "Mars"},
+        {"rus": "Юпитер", "eng": "Jupiter"},
+        {"rus": "Сатурн", "eng": "Saturn"},
+        {"rus": "Уран", "eng": "Uranus"},
+        {"rus": "Нептун", "eng": "Neptune"},
+        {"rus": "Плутон", "eng": "Pluto"}
+      ];
+      // Массив статей
+      let listOfArticles = [];
+      // Массив ссылок
+      let listOfLinks = [];
+      // Массив букв
+      let letters = [];
+      // Наполняем массив букв беря из русского названия первую и сортируем по алфавиту
+      JSONArticles.forEach (function (item, i, arr) {
+        letters.push (item.rus.substr (0, 1));
+      });
+      letters.sort ();
+      listOfArticles.sort ();
+      // Убираем повторяющиеся буквы
+      let uniqueLetters = [...new Set (letters)];
+      if (StateJSON !== "") {
+        SPAStateH = JSON.parse(StateJSON); 
+      } else {
+        SPAStateH = {pagename: 'Main'};
+      }
+      let PageHTML = "";
+      switch (SPAStateH.pagename) {
+        case 'Главная':
+          PageHTML += "<h3 id='header'>Главная страница</h3>";
+          break;
+        case 'Список статей':
+          PageHTML += "<h3 id='header'>Оглавление</h3>";
+          PageHTML += "<div id='wrapper'></div>";
+          break;
+        case 'Статья':
+          PageHTML += "<h3 id='header'>Содержание</h3>";
+          PageHTML += "<div id='article'></div>";
+          break;
+      }
+      document.getElementById('IPage').innerHTML = PageHTML;
+      let wrapper = document.getElementById ('wrapper');
+      // Формируем заголовки
+      uniqueLetters.forEach (function (item, i, arr) {
+        let div = document.createElement ('div');
+        let span = document.createElement ('span');
+        let br = document.createElement ('br');
+        wrapper.appendChild (div).id = item;
+        div.className = 'section';
+        div.appendChild (span).id = 'text';
+        div.appendChild (br);
+        span.innerHTML = item;
+      });
+      listOfLinks.sort ();
+      // Создаём ссылки, задаём id, класс и атрибут onclick, добавляем статьи в соответствие с буквой раздела
+      function alphabetList () {
+        JSONArticles.forEach (function (item, i, arr) {
+          listOfArticles.push (item.rus);
+          listOfLinks.push (item.eng);
+          let letter = item.rus.substr (0, 1);
+          let base = document.getElementById (item.rus.substr (0, 1));
+          let a = document.createElement ('a');
+          a.setAttribute ('id', item.eng);
+          a.setAttribute ('class', 'link');
+          a.setAttribute ('href', '');
+          a.setAttribute ('onclick', 'SwitchToArticlePage()');
+          let br = document.createElement ('br');
+          if (letter == base.getAttribute ('id')) {
+            base.append (a);
+            a.append (listOfArticles[i]);
+            base.append (br);
+          };
+        });
+      };
+      alphabetList ();
+    }
+    function SwitchToState(NewStateH) {
+      location.hash = encodeURIComponent(JSON.stringify(NewStateH));
+    }
+    function SwitchToMainPage() {
+      SwitchToState({pagename: 'Главная'});
+    }
+    function SwitchToListPage() {
+      SwitchToState({pagename: 'Список статей'});
+    }
+    // Запрос. id и названия страниц совпадают. Зная по какой ссылке был совершен клик, узнаем её id и подставляем его в url.
+    let content = document.getElementById ('article');
+    function SwitchToArticlePage() {
+      articleID = event.target.id;
+      let pageName = articleID;
+      let linkUrl = 'pages/' + pageName + '.html';
+      console.log (linkUrl);
+      // let elem = document.getElementById (pageName);
+      // elem.setAttribute ('href', linkUrl);
+      SwitchToState({pagename: 'Статья'});
+      let xhr = new XMLHttpRequest ();
+      xhr.open ('GET', linkUrl, true);
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        content.innerHTML = xhr.response;
+        console.log (xhr.responseText);
+      } else {
+        console.log ('error');
+      }
+      xhr.send ();
+    }
+    SwitchToStateFromURLHash();
+  </script>
+  <script src="index.js"></script>
+  <script src="jquery-3.6.0.js"></script>
+  <br>
+  <div id="buttonBox">
+    <input type=button id="button" value='Главная' onclick='SwitchToMainPage()'>
+    <input type=button id="button" value='Список статей' onclick='SwitchToListPage()'>
+  </div>
+</body>
+</html>
